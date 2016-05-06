@@ -1,18 +1,24 @@
-package com.wee.model;
+package com.wee.entity;
 
-public class Book {
+import javax.persistence.*;
+
+@Entity
+@Table(name = "BOOK")
+public class BookEntity {
+
+    @Id
+    @GeneratedValue
+    @Column(name="BOOK_ID")
     private Long bookId;
+
+    @Column(name="NAME")
     private String name;
+
+    @Column(name="AUTHOR")
     private String author;
+
+    @Column(name="YEAR")
     private String year;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Long getBookId() {
         return bookId;
@@ -20,6 +26,14 @@ public class Book {
 
     public void setBookId(Long bookId) {
         this.bookId = bookId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAuthor() {

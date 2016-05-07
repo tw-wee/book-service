@@ -16,6 +16,7 @@ public class DefaultBookTranslator implements BookTranslator{
         book.setName(bookEntity.getName());
         book.setAuthor(bookEntity.getAuthor());
         book.setYear(bookEntity.getYear());
+        book.setActive(bookEntity.isActive());
         return book;
     }
 

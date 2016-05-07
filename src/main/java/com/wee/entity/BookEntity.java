@@ -20,6 +20,9 @@ public class BookEntity {
     @Column(name="YEAR")
     private String year;
 
+    @Column(name="ACTIVE")
+    private boolean active;
+
     public Long getBookId() {
         return bookId;
     }
@@ -50,5 +53,13 @@ public class BookEntity {
 
     public void setYear(String year) {
         this.year = year;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

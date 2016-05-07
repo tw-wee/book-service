@@ -5,6 +5,7 @@ public class Book {
     private String name;
     private String author;
     private String year;
+    private boolean active;
 
     public String getName() {
         return name;
@@ -36,5 +37,13 @@ public class Book {
 
     public void setYear(String year) {
         this.year = year;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

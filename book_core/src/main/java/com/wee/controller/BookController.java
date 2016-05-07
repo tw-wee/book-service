@@ -2,6 +2,7 @@ package com.wee.controller;
 
 import com.wee.model.Book;
 import com.wee.service.BookService;
+import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Api(value = "Books", description = "Operations with Books")
 public class BookController {
 
     @Autowired

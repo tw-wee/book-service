@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class DefaultBookTranslator implements BookTranslator{
+public class DefaultBookTranslator implements BookTranslator {
 
     public Book translateToBook(BookEntity bookEntity) {
         Book book = new Book();

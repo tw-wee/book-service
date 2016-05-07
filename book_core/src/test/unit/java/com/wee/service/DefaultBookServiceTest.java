@@ -1,11 +1,12 @@
-package com.wee.service;
+package test.unit.java.com.wee.service;
 
-import com.wee.BookUnitBaseTest;
-import com.wee.entity.BookEntity;
-import com.wee.model.Book;
-import com.wee.repository.BookRepository;
-import com.wee.translator.BookTranslator;
-import com.wee.translator.DefaultBookTranslator;
+import test.unit.java.com.wee.BookUnitBaseTest;
+import main.java.com.wee.entity.BookEntity;
+import main.java.com.wee.model.Book;
+import main.java.com.wee.repository.BookRepository;
+import main.java.com.wee.service.DefaultBookService;
+import main.java.com.wee.translator.BookTranslator;
+import main.java.com.wee.translator.DefaultBookTranslator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

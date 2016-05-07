@@ -1,7 +1,8 @@
-package com.wee.translator;
+package test.unit.java.com.wee.translator;
 
-import com.wee.BookUnitBaseTest;
-import com.wee.model.Book;
+import test.unit.java.com.wee.BookUnitBaseTest;
+import main.java.com.wee.model.Book;
+import main.java.com.wee.translator.DefaultBookTranslator;
 import org.junit.Test;
 
 import java.util.List;

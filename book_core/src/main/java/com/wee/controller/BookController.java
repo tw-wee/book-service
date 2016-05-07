@@ -2,6 +2,7 @@ package com.wee.controller;
 
 import com.wee.model.Book;
 import com.wee.service.BookService;
+import com.wordnik.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ public class BookController {
 
     @RequestMapping(value = "/books", method = RequestMethod.GET)
     @ResponseBody
+    @ApiOperation(value="Get Books by name")
     public List<Book> getBooksByName(@RequestParam("name") String name) {
         return bookService.getBooksByName(name);
     }

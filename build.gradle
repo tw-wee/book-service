@@ -1,45 +1,47 @@
 buildscript {
-	ext {
-		springBootVersion = '1.2.8.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
-		classpath('io.spring.gradle:dependency-management-plugin:0.5.6.RELEASE')
-	}
+    ext {
+        springBootVersion = '1.2.8.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath('io.spring.gradle:dependency-management-plugin:0.5.6.RELEASE')
+    }
 }
 
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'spring-boot' 
+allprojects {
+    apply plugin: 'idea'
 
-jar {
-	baseName = 'BookAPI'
-	version = '0.0.1-SNAPSHOT'
-}
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-repositories {
-	mavenCentral()
+    repositories {
+        mavenCentral()
+    }
 }
 
+def javaSubProjects() {
+    subprojects.findAll { it.name != 'book-api' }
+}
 
-dependencies {
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('mysql:mysql-connector-java')
-	compile('com.mangofactory:swagger-springmvc:1.0.0')
-	testCompile('com.jayway.jsonpath:json-path:2.0.0')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+configure(javaSubProjects()) {
+    apply plugin: 'java'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+idea.project {
+    jdkName = '1.8'
+    languageLevel = '1.8'
+    ipr {
+        withXml { XmlProvider xml ->
+            xml.node.with {
+                component.find {it.@name == 'VcsDirectoryMappings' }.mapping.@vcs = 'Git'
+            }
+
+        }
+    }
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.12'
+    gradleVersion = '2.12'
 }
-
-applicationDefaultJvmArgs = [
-        "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9999"
-]

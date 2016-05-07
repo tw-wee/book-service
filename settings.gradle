@@ -1,0 +1,2 @@
+rootProject.name = 'book-api'
+include 'book_core'

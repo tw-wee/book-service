@@ -1,7 +1,7 @@
-package com.wee;
+package test.unit.java.com.wee;
 
-import com.wee.entity.BookEntity;
-import com.wee.model.Book;
+import main.java.com.wee.entity.BookEntity;
+import main.java.com.wee.model.Book;
 
 public class BookUnitBaseTest {
 

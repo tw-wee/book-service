@@ -1,6 +1,7 @@
-package com.wee;
+package test.intg.java.com.wee;
 
-import com.wee.entity.BookEntity;
+import main.java.com.wee.BookApiApplication;
+import main.java.com.wee.entity.BookEntity;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

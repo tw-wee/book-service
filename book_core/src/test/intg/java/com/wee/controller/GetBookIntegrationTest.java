@@ -1,7 +1,8 @@
-package com.wee.controller;
+package test.intg.java.com.wee.controller;
 
-import com.wee.BookIntegrationBaseTest;
-import com.wee.repository.BookRepository;
+import test.intg.java.com.wee.BookIntegrationBaseTest;
+import main.java.com.wee.controller.BookController;
+import main.java.com.wee.repository.BookRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

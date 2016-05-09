@@ -32,14 +32,7 @@ configure(javaSubProjects()) {
 idea.project {
     jdkName = '1.8'
     languageLevel = '1.8'
-    ipr {
-        withXml { XmlProvider xml ->
-            xml.node.with {
-                component.find {it.@name == 'VcsDirectoryMappings' }.mapping.@vcs = 'Git'
-            }
-
-        }
-    }
+    vcs = "Git"
 }
 
 task wrapper(type: Wrapper) {

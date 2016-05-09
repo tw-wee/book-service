@@ -1,12 +1,11 @@
-package test.unit.java.com.wee.service;
+package com.wee.service;
 
-import test.unit.java.com.wee.BookUnitBaseTest;
-import main.java.com.wee.entity.BookEntity;
-import main.java.com.wee.model.Book;
-import main.java.com.wee.repository.BookRepository;
-import main.java.com.wee.service.DefaultBookService;
-import main.java.com.wee.translator.BookTranslator;
-import main.java.com.wee.translator.DefaultBookTranslator;
+import com.wee.BookUnitBaseTest;
+import com.wee.entity.BookEntity;
+import com.wee.model.Book;
+import com.wee.repository.BookRepository;
+import com.wee.translator.BookTranslator;
+import com.wee.translator.DefaultBookTranslator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -15,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
+import static com.wee.model.Category.IT;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -45,10 +45,14 @@ public class DefaultBookServiceTest extends BookUnitBaseTest {
         List<Book> bookList = bookService.getBooksByName(BOOK_NAME);
 
         assertEquals(bookList.size(), 1);
-        assertEquals(bookList.get(0).getBookId(), BOOK_ID);
+        assertEquals(bookList.get(0).getBookId(), "123456");
         assertEquals(bookList.get(0).getName(), BOOK_NAME);
         assertEquals(bookList.get(0).getAuthor(), BOOK_AUTHOR);
         assertEquals(bookList.get(0).getYear(), BOOK_YEAR);
+        assertEquals(bookList.get(0).getPublisher(), BOOK_PUBLISHER);
+        assertEquals(bookList.get(0).getDescription(), BOOK_DESCRIPTION);
+        assertEquals(bookList.get(0).getCategory(), IT);
+        assertEquals(bookList.get(0).getImage(), BOOK_IMAGE);
         assertEquals(bookList.get(0).isActive(), true);
     }
 

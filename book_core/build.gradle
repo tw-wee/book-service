@@ -10,6 +10,17 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
+sourceSets {
+    main {
+        java.srcDirs = ['src/main/java']
+        resources.srcDirs = ['src/main/resources']
+    }
+    test {
+        java.srcDirs = ['src/test/intg/java', 'src/test/unit/java']
+        resources.srcDirs = ['src/test/intg/resources', 'src/test/unit/resources']
+    }
+}
+
 test {
     include '**/*Test.class'
     exclude '**/*IntegrationTest.class'

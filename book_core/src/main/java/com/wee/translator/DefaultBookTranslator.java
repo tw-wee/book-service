@@ -12,10 +12,14 @@ public class DefaultBookTranslator implements BookTranslator {
 
     public Book translateToBook(BookEntity bookEntity) {
         Book book = new Book();
-        book.setBookId(bookEntity.getBookId());
+        book.setBookId(bookEntity.getBookId().toString());
         book.setName(bookEntity.getName());
         book.setAuthor(bookEntity.getAuthor());
         book.setYear(bookEntity.getYear());
+        book.setPublisher(bookEntity.getPublisher());
+        book.setDescription(bookEntity.getDescription());
+        book.setCategory(bookEntity.getCategory());
+        book.setImage(bookEntity.getImage());
         book.setActive(bookEntity.isActive());
         return book;
     }

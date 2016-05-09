@@ -1,5 +1,7 @@
 package com.wee.entity;
 
+import com.wee.model.Category;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,20 +9,32 @@ import javax.persistence.*;
 public class BookEntity {
 
     @Id
-    @GeneratedValue
-    @Column(name="BOOK_ID")
+    @Column(name = "BOOK_ID")
     private Long bookId;
 
-    @Column(name="NAME")
+    @Column(name = "NAME")
     private String name;
 
-    @Column(name="AUTHOR")
+    @Column(name = "AUTHOR")
     private String author;
 
-    @Column(name="YEAR")
+    @Column(name = "YEAR")
     private String year;
 
-    @Column(name="ACTIVE")
+    @Column(name = "PUBLISHER")
+    private String publisher;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @Column(name = "CATEGORY")
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
+    @Column(name = "IMAGE")
+    private String image;
+
+    @Column(name = "ACTIVE")
     private boolean active;
 
     public Long getBookId() {
@@ -61,5 +75,37 @@ public class BookEntity {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

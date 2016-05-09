@@ -1,6 +1,7 @@
 package com.wee.service;
 
 import com.wee.BookUnitBaseTest;
+import com.wee.exception.BookNotFoundException;
 import com.wee.model.Book;
 import com.wee.repository.BookRepository;
 import com.wee.translator.BookTranslator;
@@ -36,7 +37,7 @@ public class DefaultBookServiceTest extends BookUnitBaseTest {
     }
 
     @Test
-    public void shouldGetBooksByName() throws Exception {
+    public void shouldGetActiveBooksByName() throws Exception {
         when(bookRepository.findByActiveTrueAndName(BOOK_NAME)).thenReturn(asList(givenActiveBookEntity(BOOK_ID)));
 
         List<Book> bookList = bookService.getBooksByName(BOOK_NAME);
@@ -51,6 +52,31 @@ public class DefaultBookServiceTest extends BookUnitBaseTest {
         assertEquals(bookList.get(0).getCategory(), IT);
         assertEquals(bookList.get(0).getImage(), BOOK_IMAGE);
         assertEquals(bookList.get(0).isActive(), true);
+    }
+
+    @Test
+    public void shouldGetActiveBookById() throws Exception {
+        when(bookRepository.findByActiveTrueAndBookId(BOOK_ID)).thenReturn(givenActiveBookEntity(BOOK_ID));
+
+        Book book = bookService.getBookById("123456");
+
+        assertEquals(book.getBookId(), "123456");
+        assertEquals(book.getName(), BOOK_NAME);
+        assertEquals(book.getAuthor(), BOOK_AUTHOR);
+        assertEquals(book.getYear(), BOOK_YEAR);
+        assertEquals(book.getPublisher(), BOOK_PUBLISHER);
+        assertEquals(book.getDescription(), BOOK_DESCRIPTION);
+        assertEquals(book.getCategory(), IT);
+        assertEquals(book.getImage(), BOOK_IMAGE);
+        assertEquals(book.isActive(), true);
+    }
+
+
+    @Test(expected = BookNotFoundException.class)
+    public void shouldNotGetInActiveBookById() throws Exception {
+        when(bookRepository.findByActiveTrueAndBookId(BOOK_ID)).thenReturn(null);
+
+        bookService.getBookById("123456");
     }
 
 }

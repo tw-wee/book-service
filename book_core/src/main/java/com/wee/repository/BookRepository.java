@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<BookEntity, Integer> {
     List<BookEntity> findByActiveTrueAndName(String name);
+
+    BookEntity findByActiveTrueAndBookId(Long bookId);
 }

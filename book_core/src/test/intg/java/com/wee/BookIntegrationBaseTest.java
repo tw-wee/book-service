@@ -1,13 +1,24 @@
 package com.wee;
 
+import com.wee.controller.BookController;
+import com.wee.controller.ExceptionHandlingController;
 import com.wee.entity.BookEntity;
+import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.method.annotation.ExceptionHandlerMethodResolver;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
+import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod;
+
+import java.lang.reflect.Method;
 
 import static com.wee.model.Category.IT;
 import static com.wee.model.Category.MATH;
@@ -35,6 +46,15 @@ public abstract class BookIntegrationBaseTest {
 
     protected MockMvc mockMvc;
 
+    @Autowired
+    private BookController bookController;
+
+    @Before
+    public void setUp() throws Exception {
+        mockMvc = MockMvcBuilders.standaloneSetup(bookController)
+                .setHandlerExceptionResolvers(createExceptionResolver())
+                .build();
+    }
 
     protected BookEntity givenActiveBookEntity(Long bookId) {
         BookEntity bookEntity = new BookEntity();
@@ -62,5 +82,17 @@ public abstract class BookIntegrationBaseTest {
         bookEntity.setImage(BOOK_IMAGE_1);
         bookEntity.setActive(false);
         return bookEntity;
+    }
+
+
+    private ExceptionHandlerExceptionResolver createExceptionResolver() {
+        ExceptionHandlerExceptionResolver exceptionResolver = new ExceptionHandlerExceptionResolver() {
+            protected ServletInvocableHandlerMethod getExceptionHandlerMethod(HandlerMethod handlerMethod, Exception exception) {
+                Method method = new ExceptionHandlerMethodResolver(ExceptionHandlingController.class).resolveMethod(exception);
+                return new ServletInvocableHandlerMethod(new ExceptionHandlingController(), method);
+            }
+        };
+        exceptionResolver.afterPropertiesSet();
+        return exceptionResolver;
     }
 }

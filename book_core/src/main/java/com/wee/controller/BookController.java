@@ -18,8 +18,15 @@ public class BookController {
 
     @RequestMapping(value = "/books", method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value="Get Books by name")
+    @ApiOperation(value = "Get Books by name")
     public List<Book> getBooksByName(@RequestParam("name") String name) {
         return bookService.getBooksByName(name);
+    }
+
+    @RequestMapping(value = "/books/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    @ApiOperation(value = "Get Book by id")
+    public Book getBookById(@PathVariable String id) {
+        return bookService.getBookById(id);
     }
 }

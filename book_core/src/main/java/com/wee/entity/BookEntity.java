@@ -1,6 +1,7 @@
 package com.wee.entity;
 
 import com.wee.model.Category;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -34,7 +35,8 @@ public class BookEntity {
     @Column(name = "IMAGE")
     private String image;
 
-    @Column(name = "ACTIVE")
+    @Type(type = "yes_no")
+    @Column(name = "ACTIVE", nullable = false)
     private boolean active;
 
     public Long getBookId() {

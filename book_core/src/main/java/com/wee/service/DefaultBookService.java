@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class DefaultBookService implements BookService {
@@ -21,10 +20,7 @@ public class DefaultBookService implements BookService {
 
     @Override
     public List<Book> getBooksByName(String name) {
-        List<BookEntity> booksEntity = bookRepository.findByName(name)
-                .stream()
-                .filter(BookEntity::isActive)
-                .collect(Collectors.toList());
+        List<BookEntity> booksEntity = bookRepository.findByActiveTrueAndName(name);
 
         return bookTranslator.translateToBooks(booksEntity);
     }

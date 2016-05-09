@@ -1,7 +1,6 @@
 package com.wee.service;
 
 import com.wee.BookUnitBaseTest;
-import com.wee.entity.BookEntity;
 import com.wee.model.Book;
 import com.wee.repository.BookRepository;
 import com.wee.translator.BookTranslator;
@@ -38,9 +37,7 @@ public class DefaultBookServiceTest extends BookUnitBaseTest {
 
     @Test
     public void shouldGetBooksByName() throws Exception {
-        List<BookEntity> booksEntity = asList(givenActiveBookEntity(BOOK_ID), givenInActiveBookEntity(BOOK_ID_1));
-
-        when(bookRepository.findByName(BOOK_NAME)).thenReturn(booksEntity);
+        when(bookRepository.findByActiveTrueAndName(BOOK_NAME)).thenReturn(asList(givenActiveBookEntity(BOOK_ID)));
 
         List<Book> bookList = bookService.getBooksByName(BOOK_NAME);
 

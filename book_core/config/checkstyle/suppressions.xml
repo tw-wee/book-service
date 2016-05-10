@@ -6,4 +6,5 @@
 
 <suppressions>
     <suppress files="[\\/]src[\\/]test[\\/].*Test" checks="MagicNumber"/>
+    <suppress files="com.wee.model.Book" checks="MagicNumber"/>
 </suppressions>

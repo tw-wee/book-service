@@ -1,12 +1,15 @@
 package com.wee.controller;
 
+import com.wee.exception.BookInvalidException;
 import com.wee.model.Book;
 import com.wee.service.BookService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -38,7 +41,14 @@ public class BookController {
     @ResponseBody
     @ResponseStatus(CREATED)
     @ApiOperation(value = "Create a book")
-    public Book createBook(@RequestBody Book book) {
+    public Book createBook(@RequestBody @Valid Book book, BindingResult bindingResult) {
+        rejectInvalidBook(bindingResult);
         return bookService.createBook(book);
+    }
+
+    private void rejectInvalidBook(BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new BookInvalidException("Invalid Book", bindingResult.getFieldErrors());
+        }
     }
 }

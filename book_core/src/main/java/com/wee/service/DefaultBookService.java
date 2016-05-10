@@ -60,8 +60,8 @@ public class DefaultBookService implements BookService {
     }
 
     private boolean isSameBook(Book book, BookEntity bookEntity) {
-        return bookEntity.getAuthor().equals(book.getAuthor())
-                && bookEntity.getYear().equals(book.getYear());
+        return bookEntity.getAuthor().equalsIgnoreCase(book.getAuthor())
+                && bookEntity.getYear().equalsIgnoreCase(book.getYear());
     }
 
 }

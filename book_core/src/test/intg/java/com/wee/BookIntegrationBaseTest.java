@@ -2,9 +2,7 @@ package com.wee;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wee.controller.BookController;
 import com.wee.entity.BookEntity;
-import com.wee.handler.ExceptionHandlerController;
 import com.wee.model.Book;
 import com.wee.repository.BookRepository;
 import org.junit.Before;
@@ -17,12 +15,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.method.annotation.ExceptionHandlerMethodResolver;
-import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
-import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod;
-
-import java.lang.reflect.Method;
+import org.springframework.web.context.WebApplicationContext;
 
 import static com.wee.model.Category.IT;
 import static com.wee.model.Category.MATH;
@@ -49,7 +42,7 @@ public abstract class BookIntegrationBaseTest {
     protected MockMvc mockMvc;
 
     @Autowired
-    private BookController bookController;
+    private WebApplicationContext webApplicationContext;
 
     @Autowired
     private BookRepository bookRepository;
@@ -59,8 +52,7 @@ public abstract class BookIntegrationBaseTest {
 
     @Before
     public void setUp() throws Exception {
-        mockMvc = MockMvcBuilders.standaloneSetup(bookController)
-                .setHandlerExceptionResolvers(createExceptionResolver())
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .build();
     }
 
@@ -100,17 +92,6 @@ public abstract class BookIntegrationBaseTest {
         book.setCategory(IT);
         book.setImage(BOOK_IMAGE);
         return book;
-    }
-
-    private ExceptionHandlerExceptionResolver createExceptionResolver() {
-        ExceptionHandlerExceptionResolver exceptionResolver = new ExceptionHandlerExceptionResolver() {
-            protected ServletInvocableHandlerMethod getExceptionHandlerMethod(HandlerMethod handlerMethod, Exception exception) {
-                Method method = new ExceptionHandlerMethodResolver(ExceptionHandlerController.class).resolveMethod(exception);
-                return new ServletInvocableHandlerMethod(new ExceptionHandlerController(), method);
-            }
-        };
-        exceptionResolver.afterPropertiesSet();
-        return exceptionResolver;
     }
 
     protected String toJson(Object object) throws JsonProcessingException {

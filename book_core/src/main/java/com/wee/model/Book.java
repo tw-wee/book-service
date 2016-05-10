@@ -3,6 +3,9 @@ package com.wee.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
 
 @ApiModel
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -11,21 +14,26 @@ public class Book {
     private String bookId;
 
     @ApiModelProperty(required = true)
+    @NotNull
     private String name;
 
     @ApiModelProperty(required = true)
+    @NotNull
     private String author;
 
     @ApiModelProperty(required = true)
+    @NotNull
     private String year;
 
     @ApiModelProperty
     private String publisher;
 
     @ApiModelProperty
+    @Length(max = 200)
     private String description;
 
     @ApiModelProperty(required = true)
+    @NotNull
     private Category category;
 
     @ApiModelProperty

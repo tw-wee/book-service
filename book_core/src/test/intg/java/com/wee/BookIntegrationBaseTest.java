@@ -3,8 +3,8 @@ package com.wee;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wee.controller.BookController;
-import com.wee.controller.ExceptionHandlingController;
 import com.wee.entity.BookEntity;
+import com.wee.handler.ExceptionHandlerController;
 import com.wee.model.Book;
 import com.wee.repository.BookRepository;
 import org.junit.Before;
@@ -105,8 +105,8 @@ public abstract class BookIntegrationBaseTest {
     private ExceptionHandlerExceptionResolver createExceptionResolver() {
         ExceptionHandlerExceptionResolver exceptionResolver = new ExceptionHandlerExceptionResolver() {
             protected ServletInvocableHandlerMethod getExceptionHandlerMethod(HandlerMethod handlerMethod, Exception exception) {
-                Method method = new ExceptionHandlerMethodResolver(ExceptionHandlingController.class).resolveMethod(exception);
-                return new ServletInvocableHandlerMethod(new ExceptionHandlingController(), method);
+                Method method = new ExceptionHandlerMethodResolver(ExceptionHandlerController.class).resolveMethod(exception);
+                return new ServletInvocableHandlerMethod(new ExceptionHandlerController(), method);
             }
         };
         exceptionResolver.afterPropertiesSet();

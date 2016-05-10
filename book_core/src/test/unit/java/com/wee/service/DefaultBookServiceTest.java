@@ -1,6 +1,7 @@
 package com.wee.service;
 
 import com.wee.BookUnitBaseTest;
+import com.wee.exception.BookAlreadyExistException;
 import com.wee.exception.BookNotFoundException;
 import com.wee.model.Book;
 import com.wee.repository.BookRepository;
@@ -79,4 +80,12 @@ public class DefaultBookServiceTest extends BookUnitBaseTest {
         bookService.getBookById("123456");
     }
 
+    @Test(expected = BookAlreadyExistException.class)
+    public void shouldNotCreateDuplicateBook() throws Exception {
+        when(bookRepository.findByActiveTrueAndName(BOOK_NAME))
+                .thenReturn(asList(givenActiveBookEntity(BOOK_ID)));
+
+        bookService.createBook(givenActiveBook());
+
+    }
 }

@@ -20,7 +20,7 @@ public class BookEntity {
     @Column(name = "AUTHOR", nullable = false)
     private String author;
 
-    @Column(name = "YEAR")
+    @Column(name = "YEAR", nullable = false)
     private String year;
 
     @Column(name = "PUBLISHER")

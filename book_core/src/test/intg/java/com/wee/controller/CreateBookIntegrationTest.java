@@ -26,4 +26,14 @@ public class CreateBookIntegrationTest extends BookIntegrationBaseTest {
                 .andExpect(jsonPath("$.active").value(true));
     }
 
+    @Test
+    public void shouldNotCreateDuplicateBook() throws Exception {
+        insertActiveBookEntity();
+
+        mockMvc.perform(post("/books")
+                .content(toJson(givenActiveBook()))
+                .contentType(MediaType.valueOf("application/json")))
+                .andExpect(status().isConflict());
+    }
+
 }

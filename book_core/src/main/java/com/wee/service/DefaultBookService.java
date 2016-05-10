@@ -1,6 +1,7 @@
 package com.wee.service;
 
 import com.wee.entity.BookEntity;
+import com.wee.exception.BookAlreadyExistException;
 import com.wee.exception.BookNotFoundException;
 import com.wee.model.Book;
 import com.wee.repository.BookRepository;
@@ -42,9 +43,25 @@ public class DefaultBookService implements BookService {
 
     @Override
     public Book createBook(Book book) {
+        rejectDuplicateBook(book);
         BookEntity bookEntity = bookTranslator.translateToBookEntity(book);
         BookEntity savedBookEntity = bookRepository.save(bookEntity);
         return bookTranslator.translateToBook(savedBookEntity);
+    }
+
+    private void rejectDuplicateBook(Book book) {
+        List<BookEntity> booksEntity = bookRepository.findByActiveTrueAndName(book.getName());
+
+        for (BookEntity bookEntity : booksEntity) {
+            if (isSameBook(book, bookEntity)) {
+                throw new BookAlreadyExistException(format("Book already exist for %s", bookEntity.getBookId()));
+            }
+        }
+    }
+
+    private boolean isSameBook(Book book, BookEntity bookEntity) {
+        return bookEntity.getAuthor().equals(book.getAuthor())
+                && bookEntity.getYear().equals(book.getYear());
     }
 
 }

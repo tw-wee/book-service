@@ -16,7 +16,7 @@ public class Book {
     @ApiModelProperty(required = true)
     private String author;
 
-    @ApiModelProperty
+    @ApiModelProperty(required = true)
     private String year;
 
     @ApiModelProperty

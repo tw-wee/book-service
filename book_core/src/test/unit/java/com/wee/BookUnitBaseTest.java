@@ -50,9 +50,8 @@ public class BookUnitBaseTest {
         return bookEntity;
     }
 
-    protected Book givenActiveBook(String bookId) {
+    protected Book givenActiveBook() {
         Book book = new Book();
-        book.setBookId(bookId);
         book.setName(BOOK_NAME);
         book.setAuthor(BOOK_AUTHOR);
         book.setYear(BOOK_YEAR);
@@ -64,9 +63,8 @@ public class BookUnitBaseTest {
         return book;
     }
 
-    protected Book givenInActiveBook(String bookId) {
+    protected Book givenInActiveBook() {
         Book book = new Book();
-        book.setBookId(bookId);
         book.setName(BOOK_NAME);
         book.setAuthor(BOOK_AUTHOR_1);
         book.setYear(BOOK_YEAR_1);

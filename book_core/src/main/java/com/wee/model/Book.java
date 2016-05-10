@@ -1,17 +1,36 @@
 package com.wee.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @ApiModel
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Book {
+
     private String bookId;
+
+    @ApiModelProperty(required = true)
     private String name;
+
+    @ApiModelProperty(required = true)
     private String author;
+
+    @ApiModelProperty
     private String year;
+
+    @ApiModelProperty
     private String publisher;
+
+    @ApiModelProperty
     private String description;
+
+    @ApiModelProperty(required = true)
     private Category category;
+
+    @ApiModelProperty
     private String image;
+
     private boolean active;
 
     public String getName() {

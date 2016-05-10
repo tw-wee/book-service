@@ -1,9 +1,7 @@
 package com.wee.controller;
 
 import com.wee.BookIntegrationBaseTest;
-import com.wee.repository.BookRepository;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.hasSize;
@@ -13,18 +11,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class GetBookIntegrationTest extends BookIntegrationBaseTest {
 
-    @Autowired
-    private BookRepository bookRepository;
-
     @Test
     public void shouldGetActiveBooksByName() throws Exception {
-        bookRepository.save(givenActiveBookEntity(BOOK_ID));
-        bookRepository.save(givenInActiveBookEntity(BOOK_ID_1));
+        Long bookId = insertActiveBookEntity();
 
-        mockMvc.perform(get(format("/books?name=%s", BOOK_NAME)))
+        mockMvc.perform(get(format("/books/name/%s", BOOK_NAME)))
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].bookId").value("123456"))
+                .andExpect(jsonPath("$[0].bookId").value(bookId.toString()))
                 .andExpect(jsonPath("$[0].name").value(BOOK_NAME))
                 .andExpect(jsonPath("$[0].author").value(BOOK_AUTHOR))
                 .andExpect(jsonPath("$[0].year").value(BOOK_YEAR))
@@ -37,12 +31,10 @@ public class GetBookIntegrationTest extends BookIntegrationBaseTest {
 
     @Test
     public void shouldGetActiveBookById() throws Exception {
-        bookRepository.save(givenActiveBookEntity(BOOK_ID));
-        bookRepository.save(givenInActiveBookEntity(BOOK_ID_1));
+        Long bookId = insertActiveBookEntity();
 
-        mockMvc.perform(get(format("/books/%s", BOOK_ID)))
+        mockMvc.perform(get(format("/books/id/%s", bookId)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.bookId").value("123456"))
                 .andExpect(jsonPath("$.name").value(BOOK_NAME))
                 .andExpect(jsonPath("$.author").value(BOOK_AUTHOR))
                 .andExpect(jsonPath("$.year").value(BOOK_YEAR))
@@ -55,9 +47,9 @@ public class GetBookIntegrationTest extends BookIntegrationBaseTest {
 
     @Test
     public void shouldNotGetInActiveBookById() throws Exception {
-        bookRepository.save(givenInActiveBookEntity(BOOK_ID_1));
+        Long bookId = insertInActiveBookEntity();
 
-        mockMvc.perform(get(format("/books/%s", BOOK_ID_1)))
+        mockMvc.perform(get(format("/books/id/%s", bookId)))
                 .andExpect(status().isNotFound());
     }
 

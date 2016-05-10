@@ -40,4 +40,11 @@ public class DefaultBookService implements BookService {
         return bookTranslator.translateToBook(bookEntity);
     }
 
+    @Override
+    public Book createBook(Book book) {
+        BookEntity bookEntity = bookTranslator.translateToBookEntity(book);
+        BookEntity savedBookEntity = bookRepository.save(bookEntity);
+        return bookTranslator.translateToBook(savedBookEntity);
+    }
+
 }

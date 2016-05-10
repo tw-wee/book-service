@@ -32,4 +32,18 @@ public class DefaultBookTranslator implements BookTranslator {
         }
         return books;
     }
+
+    @Override
+    public BookEntity translateToBookEntity(Book book) {
+        BookEntity bookEntity = new BookEntity();
+        bookEntity.setName(book.getName());
+        bookEntity.setAuthor(book.getAuthor());
+        bookEntity.setYear(book.getYear());
+        bookEntity.setPublisher(book.getPublisher());
+        bookEntity.setDescription(book.getDescription());
+        bookEntity.setCategory(book.getCategory());
+        bookEntity.setImage(book.getImage());
+        bookEntity.setActive(true);
+        return bookEntity;
+    }
 }

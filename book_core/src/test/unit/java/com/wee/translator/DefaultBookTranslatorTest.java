@@ -1,6 +1,7 @@
 package com.wee.translator;
 
 import com.wee.BookUnitBaseTest;
+import com.wee.entity.BookEntity;
 import com.wee.model.Book;
 import org.junit.Test;
 
@@ -56,5 +57,19 @@ public class DefaultBookTranslatorTest extends BookUnitBaseTest {
         assertEquals(bookList.get(1).getCategory(), MATH);
         assertEquals(bookList.get(1).getImage(), BOOK_IMAGE_1);
         assertEquals(bookList.get(1).isActive(), false);
+    }
+
+    @Test
+    public void shouldTranslateBookToBookEntity() throws Exception {
+        BookEntity bookEntity = translator.translateToBookEntity(givenActiveBook());
+
+        assertEquals(bookEntity.getName(), BOOK_NAME);
+        assertEquals(bookEntity.getAuthor(), BOOK_AUTHOR);
+        assertEquals(bookEntity.getYear(), BOOK_YEAR);
+        assertEquals(bookEntity.getPublisher(), BOOK_PUBLISHER);
+        assertEquals(bookEntity.getDescription(), BOOK_DESCRIPTION);
+        assertEquals(bookEntity.getCategory(), IT);
+        assertEquals(bookEntity.getImage(), BOOK_IMAGE);
+        assertEquals(bookEntity.isActive(), true);
     }
 }

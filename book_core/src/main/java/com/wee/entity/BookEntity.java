@@ -10,13 +10,14 @@ import javax.persistence.*;
 public class BookEntity {
 
     @Id
+    @GeneratedValue
     @Column(name = "BOOK_ID")
     private Long bookId;
 
-    @Column(name = "NAME")
+    @Column(name = "NAME", nullable = false)
     private String name;
 
-    @Column(name = "AUTHOR")
+    @Column(name = "AUTHOR", nullable = false)
     private String author;
 
     @Column(name = "YEAR")
@@ -28,7 +29,7 @@ public class BookEntity {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "CATEGORY")
+    @Column(name = "CATEGORY", nullable = false)
     @Enumerated(EnumType.STRING)
     private Category category;
 

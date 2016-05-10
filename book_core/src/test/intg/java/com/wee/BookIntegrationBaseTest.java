@@ -1,8 +1,12 @@
 package com.wee;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wee.controller.BookController;
 import com.wee.controller.ExceptionHandlingController;
 import com.wee.entity.BookEntity;
+import com.wee.model.Book;
+import com.wee.repository.BookRepository;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +35,6 @@ import static com.wee.model.Category.MATH;
 public abstract class BookIntegrationBaseTest {
 
     protected static final String BOOK_NAME = "Head First Java";
-    protected static final Long BOOK_ID = 123456L;
-    protected static final Long BOOK_ID_1 = 654321L;
     protected static final String BOOK_AUTHOR = "Bert Bates";
     protected static final String BOOK_AUTHOR_1 = "Paul Barry";
     protected static final String BOOK_YEAR = "2003";
@@ -49,6 +51,12 @@ public abstract class BookIntegrationBaseTest {
     @Autowired
     private BookController bookController;
 
+    @Autowired
+    private BookRepository bookRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Before
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders.standaloneSetup(bookController)
@@ -56,9 +64,8 @@ public abstract class BookIntegrationBaseTest {
                 .build();
     }
 
-    protected BookEntity givenActiveBookEntity(Long bookId) {
+    protected Long insertActiveBookEntity() {
         BookEntity bookEntity = new BookEntity();
-        bookEntity.setBookId(bookId);
         bookEntity.setName(BOOK_NAME);
         bookEntity.setAuthor(BOOK_AUTHOR);
         bookEntity.setYear(BOOK_YEAR);
@@ -67,12 +74,11 @@ public abstract class BookIntegrationBaseTest {
         bookEntity.setCategory(IT);
         bookEntity.setImage(BOOK_IMAGE);
         bookEntity.setActive(true);
-        return bookEntity;
+        return bookRepository.save(bookEntity).getBookId();
     }
 
-    protected BookEntity givenInActiveBookEntity(Long bookId) {
+    protected Long insertInActiveBookEntity() {
         BookEntity bookEntity = new BookEntity();
-        bookEntity.setBookId(bookId);
         bookEntity.setName(BOOK_NAME);
         bookEntity.setAuthor(BOOK_AUTHOR_1);
         bookEntity.setYear(BOOK_YEAR_1);
@@ -81,9 +87,20 @@ public abstract class BookIntegrationBaseTest {
         bookEntity.setCategory(MATH);
         bookEntity.setImage(BOOK_IMAGE_1);
         bookEntity.setActive(false);
-        return bookEntity;
+        return bookRepository.save(bookEntity).getBookId();
     }
 
+    protected Book givenActiveBook() {
+        Book book = new Book();
+        book.setName(BOOK_NAME);
+        book.setAuthor(BOOK_AUTHOR);
+        book.setYear(BOOK_YEAR);
+        book.setPublisher(BOOK_PUBLISHER);
+        book.setDescription(BOOK_DESCRIPTION);
+        book.setCategory(IT);
+        book.setImage(BOOK_IMAGE);
+        return book;
+    }
 
     private ExceptionHandlerExceptionResolver createExceptionResolver() {
         ExceptionHandlerExceptionResolver exceptionResolver = new ExceptionHandlerExceptionResolver() {
@@ -95,4 +112,9 @@ public abstract class BookIntegrationBaseTest {
         exceptionResolver.afterPropertiesSet();
         return exceptionResolver;
     }
+
+    protected String toJson(Object object) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(object);
+    }
+
 }

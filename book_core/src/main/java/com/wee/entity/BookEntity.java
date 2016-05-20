@@ -76,8 +76,9 @@ public class BookEntity {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public BookEntity setActive(boolean active) {
         this.active = active;
+        return this;
     }
 
     public String getPublisher() {

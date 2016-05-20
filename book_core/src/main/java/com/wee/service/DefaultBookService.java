@@ -3,9 +3,9 @@ package com.wee.service;
 import com.wee.entity.BookEntity;
 import com.wee.exception.BookAlreadyExistException;
 import com.wee.exception.BookNotFoundException;
+import com.wee.mapper.BookMapper;
 import com.wee.model.Book;
 import com.wee.repository.BookRepository;
-import com.wee.translator.BookTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +21,13 @@ public class DefaultBookService implements BookService {
     private BookRepository bookRepository;
 
     @Autowired
-    private BookTranslator bookTranslator;
+    private BookMapper mapper;
 
     @Override
     public List<Book> getBooksByName(String name) {
         List<BookEntity> booksEntity = bookRepository.findByActiveTrueAndName(name);
 
-        return bookTranslator.translateToBooks(booksEntity);
+        return mapper.mapList(booksEntity, Book.class);
     }
 
     @Override
@@ -38,15 +38,15 @@ public class DefaultBookService implements BookService {
             throw new BookNotFoundException(format("Book not found for %s", bookId));
         }
 
-        return bookTranslator.translateToBook(bookEntity);
+        return mapper.map(bookEntity, Book.class);
     }
 
     @Override
     public Book createBook(Book book) {
         rejectDuplicateBook(book);
-        BookEntity bookEntity = bookTranslator.translateToBookEntity(book);
+        BookEntity bookEntity = mapper.map(book, BookEntity.class).setActive(true);
         BookEntity savedBookEntity = bookRepository.save(bookEntity);
-        return bookTranslator.translateToBook(savedBookEntity);
+        return mapper.map(savedBookEntity, Book.class);
     }
 
     private void rejectDuplicateBook(Book book) {

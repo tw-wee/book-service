@@ -3,10 +3,9 @@ package com.wee.service;
 import com.wee.BookUnitBaseTest;
 import com.wee.exception.BookAlreadyExistException;
 import com.wee.exception.BookNotFoundException;
+import com.wee.mapper.BookMapper;
 import com.wee.model.Book;
 import com.wee.repository.BookRepository;
-import com.wee.translator.BookTranslator;
-import com.wee.translator.DefaultBookTranslator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -29,12 +28,12 @@ public class DefaultBookServiceTest extends BookUnitBaseTest {
     @Mock
     private BookRepository bookRepository;
 
-    private BookTranslator bookTranslator = new DefaultBookTranslator();
+    private BookMapper mapper = new BookMapper();
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        setField(bookService, "bookTranslator", bookTranslator);
+        setField(bookService, "mapper", mapper);
     }
 
     @Test
@@ -72,7 +71,6 @@ public class DefaultBookServiceTest extends BookUnitBaseTest {
         assertEquals(book.isActive(), true);
     }
 
-
     @Test(expected = BookNotFoundException.class)
     public void shouldNotGetInActiveBookById() throws Exception {
         when(bookRepository.findByActiveTrueAndBookId(BOOK_ID)).thenReturn(null);
@@ -86,6 +84,5 @@ public class DefaultBookServiceTest extends BookUnitBaseTest {
                 .thenReturn(asList(givenActiveBookEntity(BOOK_ID)));
 
         bookService.createBook(givenActiveBook());
-
     }
 }

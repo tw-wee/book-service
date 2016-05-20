@@ -1,24 +1,19 @@
 package com.wee.config;
 
-import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
-import com.mangofactory.swagger.configuration.SwaggerGlobalSettings;
-import com.mangofactory.swagger.models.dto.ApiInfo;
-import com.mangofactory.swagger.plugin.EnableSwagger;
-import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.security.Principal;
-import java.util.Set;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@EnableSwagger
+@EnableSwagger2
 public class SwaggerConfig {
-
-    @Autowired
-    private SpringSwaggerConfig springSwaggerConfig;
 
     @Value(value = "${info.version}")
     private String version;
@@ -32,34 +27,22 @@ public class SwaggerConfig {
     @Value(value = "${info.contact.email}")
     private String email;
 
-    @Value(value = "${swagger.include.pattern}")
-    private String includePatterns;
-
-
-    @Bean
-    public SwaggerSpringMvcPlugin customImplementation() {
-        return new SwaggerSpringMvcPlugin(this.springSwaggerConfig)
-                .apiVersion(version)
-                .apiInfo(getApiInfo())
-                .includePatterns(includePatterns);
-    }
+    @Value(value = "${info.contact.author}")
+    private String author;
 
     @Bean
-    public SwaggerGlobalSettings swaggerGlobalSettings() {
-        SwaggerGlobalSettings swaggerGlobalSettings = new SwaggerGlobalSettings();
-        swaggerGlobalSettings.setGlobalResponseMessages(springSwaggerConfig.defaultResponseMessages());
-        swaggerGlobalSettings.setIgnorableParameterTypes(getIgnorableParameterTypes());
-        return swaggerGlobalSettings;
-    }
-
-    private Set<Class> getIgnorableParameterTypes() {
-        Set<Class> types = springSwaggerConfig.defaultIgnorableParameterTypes();
-        types.add(Principal.class);
-        return types;
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.wee.controller"))
+                .paths(PathSelectors.any())
+                .build()
+                .apiInfo(getApiInfo());
     }
 
     private ApiInfo getApiInfo() {
-        return new ApiInfo(name, description, "", email, "", "");
+        Contact contact = new Contact(author, "", email);
+        return new ApiInfo(name, description, version, "Terms of service", contact, "", "");
     }
 }
 

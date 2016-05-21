@@ -6,13 +6,18 @@ import com.wee.service.BookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -24,26 +29,25 @@ public class BookController {
     private BookService bookService;
 
     @RequestMapping(value = "/books/name/{name}", method = GET)
-    @ResponseBody
     @ApiOperation(value = "Get Books by name")
-    public List<Book> getBooksByName(@PathVariable String name) {
-        return bookService.getBooksByName(name);
+    public ResponseEntity<List<Book>> getBooksByName(@PathVariable String name) {
+        List<Book> books = bookService.getBooksByName(name);
+        return new ResponseEntity<>(books, OK);
     }
 
     @RequestMapping(value = "/books/id/{id}", method = GET)
-    @ResponseBody
     @ApiOperation(value = "Get Book by id")
-    public Book getBookById(@PathVariable String id) {
-        return bookService.getBookById(id);
+    public ResponseEntity<Book> getBookById(@PathVariable String id) {
+        Book book = bookService.getBookById(id);
+        return new ResponseEntity<>(book, OK);
     }
 
     @RequestMapping(value = "/books", method = POST)
-    @ResponseBody
-    @ResponseStatus(CREATED)
     @ApiOperation(value = "Create a book")
-    public Book createBook(@RequestBody @Valid Book book, BindingResult bindingResult) {
+    public ResponseEntity<Book> createBook(@RequestBody @Valid Book book, BindingResult bindingResult) {
         rejectInvalidBook(bindingResult);
-        return bookService.createBook(book);
+        Book savedBook = bookService.createBook(book);
+        return new ResponseEntity<Book>(savedBook, CREATED);
     }
 
     private void rejectInvalidBook(BindingResult bindingResult) {

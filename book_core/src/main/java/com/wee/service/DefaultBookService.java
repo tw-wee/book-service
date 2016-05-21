@@ -35,7 +35,7 @@ public class DefaultBookService implements BookService {
         BookEntity bookEntity = bookRepository.findByActiveTrueAndBookId(new Long(bookId));
 
         if (isEmpty(bookEntity)) {
-            throw new BookNotFoundException(format("Book not found for %s", bookId));
+            throw new BookNotFoundException(format("Book not found for BookId %s", bookId));
         }
 
         return mapper.map(bookEntity, Book.class);
@@ -54,7 +54,7 @@ public class DefaultBookService implements BookService {
 
         for (BookEntity bookEntity : booksEntity) {
             if (isSameBook(book, bookEntity)) {
-                throw new BookAlreadyExistException(format("Book already exist for %s", bookEntity.getBookId()));
+                throw new BookAlreadyExistException(format("Book already exist for BookId %s", bookEntity.getBookId()));
             }
         }
     }

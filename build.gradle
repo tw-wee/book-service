@@ -55,7 +55,12 @@ build.dependsOn intgTest
 
 
 jar {
-    baseName = "$jarBaseName"
+    manifest {
+        attributes(
+                'Main-Class': 'com.wee.BookApiApplication'
+        )
+    }
+    baseName = project.name
     version = "$jarVersion"
 }
 

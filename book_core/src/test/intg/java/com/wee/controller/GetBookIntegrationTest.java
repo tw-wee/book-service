@@ -15,7 +15,7 @@ public class GetBookIntegrationTest extends BookIntegrationBaseTest {
     public void shouldGetActiveBooksByName() throws Exception {
         Long bookId = insertActiveBookEntity();
 
-        mockMvc.perform(get(format("/books/name/%s", BOOK_NAME)))
+        mockMvc.perform(get(format("/books?name=%s", BOOK_NAME)))
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].bookId").value(bookId.toString()))
@@ -33,7 +33,7 @@ public class GetBookIntegrationTest extends BookIntegrationBaseTest {
     public void shouldGetActiveBookById() throws Exception {
         Long bookId = insertActiveBookEntity();
 
-        mockMvc.perform(get(format("/books/id/%s", bookId)))
+        mockMvc.perform(get(format("/books/%s", bookId)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(BOOK_NAME))
                 .andExpect(jsonPath("$.author").value(BOOK_AUTHOR))
@@ -49,7 +49,7 @@ public class GetBookIntegrationTest extends BookIntegrationBaseTest {
     public void shouldNotGetInActiveBookById() throws Exception {
         Long bookId = insertInActiveBookEntity();
 
-        mockMvc.perform(get(format("/books/id/%s", bookId)))
+        mockMvc.perform(get(format("/books/%s", bookId)))
                 .andExpect(status().isNotFound());
     }
 

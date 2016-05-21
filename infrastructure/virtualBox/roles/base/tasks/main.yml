@@ -1,4 +1,14 @@
-- name: Apt update
+- name: apt update
   run_once: true
   apt:
     update_cache: yes
+
+- name: ensure easy-install installed
+  apt:
+    name: python-setuptools
+    state: present
+
+- name: ensure Pip installed
+  easy_install:
+    name: pip
+    state: present

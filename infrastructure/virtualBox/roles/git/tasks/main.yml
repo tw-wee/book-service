@@ -1,6 +1,6 @@
 ---
 
-- name: Ensure git installed
+- name: ensure git installed
   apt:
     name: git
     state: present

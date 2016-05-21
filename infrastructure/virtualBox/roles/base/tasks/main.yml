@@ -1,0 +1,4 @@
+- name: Apt update
+  run_once: true
+  apt:
+    update_cache: yes

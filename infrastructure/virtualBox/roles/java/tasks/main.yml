@@ -1,0 +1,15 @@
+---
+
+- name: Add repo for java
+  apt_repository:
+    repo: 'ppa:webupd8team/java'
+    state: present
+
+- name: Accept Oracle licence
+  shell: echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+
+- name: Ensure java 8 installed
+  apt:
+    name: oracle-java8-installer
+    state: latest
+    force: yes

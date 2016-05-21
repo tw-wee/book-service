@@ -1,0 +1,10 @@
+---
+- hosts: book-service
+  become: yes
+  become_method: sudo
+
+  roles:
+    - base
+    - git
+    - java
+    - tomcat

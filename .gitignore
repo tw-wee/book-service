@@ -1,6 +1,7 @@
 /out
 /build
 /.idea
+/infrastructure/virtualBox/.vagrant
 .gradle
 .DS_Store
 /*/*.iml

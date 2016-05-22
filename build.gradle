@@ -5,11 +5,13 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
         classpath("io.spring.gradle:dependency-management-plugin:$dependencyManagementVersion")
+        classpath('se.transmode.gradle:gradle-docker:1.2')
     }
 }
 
 apply plugin: 'idea'
 apply plugin: 'java'
+apply plugin: 'docker'
 apply plugin: 'spring-boot'
 apply plugin: 'checkstyle'
 
@@ -62,6 +64,19 @@ jar {
     }
     baseName = project.name
     version = "$jarVersion"
+}
+
+group = 'zhangyuyu'
+task buildDocker(type: Docker, dependsOn: build) {
+    push = true
+    applicationName = jar.baseName
+    dockerfile = file('src/main/docker/Dockerfile')
+    doFirst {
+        copy {
+            from jar
+            into stageDir
+        }
+    }
 }
 
 idea.project {

@@ -1,0 +1,16 @@
+version: '2'
+services:
+  book-service:
+    build: .
+    container_name: book-service
+    command: ["/usr/local/bin/start.sh"]
+    ports:
+      - "8800:8800"
+    networks:
+      - wee-net
+    volumes:
+      - /home/vagrant/app/book-service/build/libs:/book-service
+
+networks:
+  wee-net:
+    driver: bridge

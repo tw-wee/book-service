@@ -1,7 +1,4 @@
-FROM java:8-jre
+FROM frolvlad/alpine-oraclejdk8:slim
 
-EXPOSE 8800
-ENTRYPOINT ["java", "-jar", "/shop-0.0.1-SNAPSHOT.jar", "server", "config/shop-app-config.yml"]
-CMD []
-
-EXPOSE 8800
+COPY start-book.sh /usr/local/bin/start.sh
+RUN chmod a+x /usr/local/bin/start.sh

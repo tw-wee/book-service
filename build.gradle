@@ -11,6 +11,7 @@ buildscript {
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'spring-boot'
+apply plugin: 'application'
 apply plugin: 'checkstyle'
 
 sourceCompatibility = "$javaVersion"
@@ -54,12 +55,9 @@ task intgTest(type: Test, dependsOn: test) {
 build.dependsOn intgTest
 
 
+mainClassName = "com.wee.BookApiApplication"
+
 jar {
-    manifest {
-        attributes(
-                'Main-Class': 'com.wee.BookApiApplication'
-        )
-    }
     baseName = project.name
     version = "$jarVersion"
 }
@@ -73,7 +71,3 @@ idea.project {
 task wrapper(type: Wrapper) {
     gradleVersion = "$gradleVersion"
 }
-
-applicationDefaultJvmArgs = [
-        "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9999"
-]

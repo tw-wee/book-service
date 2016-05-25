@@ -4,6 +4,11 @@
 ### 访问BookAPI
 http://localhost:8080/books?name=bookName
 
+### Remote Debug
+- Edit Configurations -> Add New Configuration -> Remote -> set name as RemoteDebug, port as 5005 -> Apply/OK
+- Launch ./gradlew run --debug-jvm
+- Choose RemoteDebug -> Debug
+
 ### DataSource
 #### 目前暂时用Mysql,在本地运行之前确保:
 * 有一个用户`apiuser`

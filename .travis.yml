@@ -9,3 +9,5 @@ cache:
     - $HOME/.gradle/wrapper/
 jdk:
   - oraclejdk8
+services:
+  - mysql

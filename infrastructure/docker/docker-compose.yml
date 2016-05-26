@@ -1,16 +1,40 @@
 version: '2'
 services:
-  book-service:
-    build: .
-    container_name: book-service
-    command: ["/usr/local/bin/start.sh"]
+  book:
+    image: java:8-jre-alpine
+    container_name: book-node
+    hostname: book-service
+    working_dir: /book-service
+    command: java -jar book-api-0.1.0.jar
+    restart: always
     ports:
       - "8800:8800"
     networks:
       - wee-net
+    links:
+      - mysql
     volumes:
-      - /home/vagrant/app/book-service/build/libs:/book-service
+      - ../../build/libs/:/book-service
+
+  mysql:
+    image: mysql:5.5
+    container_name: book-db
+    expose:
+      - "3306"
+    ports:
+      - "3360:3306"
+    environment:
+      MYSQL_DATABASE: book-db
+      MYSQL_USER: apiuser
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: admin
+    networks:
+      - book-db
+    volumes:
+      - ../../db/book-db/:/var/lib/mysql/
 
 networks:
   wee-net:
+    driver: bridge
+  book-db:
     driver: bridge

@@ -22,7 +22,7 @@ services:
     expose:
       - "3306"
     ports:
-      - "3360:3306"
+      - "3306:3306"
     environment:
       MYSQL_DATABASE: book-db
       MYSQL_USER: apiuser

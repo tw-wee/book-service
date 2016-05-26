@@ -18,7 +18,7 @@ services:
 
 before_install:
   - mysql -u root -e 'create database db_book;'
-  - mysql -u root -e "CREATE USER 'apiuser'@'localhost' IDENTIFIED BY 'password’"
+  - mysql -u root -e "CREATE USER 'apiuser'@'localhost' IDENTIFIED BY 'password'"
   - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'apiuser'@'localhost'"
 
 script: ./gradlew clean build

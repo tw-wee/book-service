@@ -38,8 +38,11 @@ sourceSets {
         resources.srcDirs = ['src/main/resources']
     }
     test {
-        java.srcDirs = ['src/test/intg/java', 'src/test/unit/java']
-        resources.srcDirs = ['src/test/intg/resources', 'src/test/unit/resources']
+        java.srcDirs = ['src/test/unit/java']
+        resources.srcDirs = ['src/test/unit/resources']
+    }
+    intgTest {
+        resources.srcDirs += ['src/main/resources', 'src/test/intg/resources']
     }
 }
 
@@ -60,6 +63,10 @@ task addConfigProperties {
 
 build.dependsOn intgTest
 bootRun.dependsOn addConfigProperties
+
+configurations {
+    providedRuntime
+}
 
 mainClassName = "com.wee.BookApiApplication"
 

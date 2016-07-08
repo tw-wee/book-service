@@ -52,8 +52,14 @@ task intgTest(type: Test, dependsOn: test) {
     include '**/*IntegrationTest.class'
 }
 
-build.dependsOn intgTest
+task addConfigProperties {
+    doLast {
+        sourceSets.main.resources.srcDirs += 'config/environment/local'
+    }
+}
 
+build.dependsOn intgTest
+bootRun.dependsOn addConfigProperties
 
 mainClassName = "com.wee.BookApiApplication"
 
@@ -71,3 +77,9 @@ idea.project {
 task wrapper(type: Wrapper) {
     gradleVersion = "$gradleVersion"
 }
+
+applicationDefaultJvmArgs = [
+        "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9999",
+        "-Dspring.config.name=application,environment",
+        "-Dspring.profile.active=local"
+]

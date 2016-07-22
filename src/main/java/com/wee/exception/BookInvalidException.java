@@ -5,7 +5,7 @@ import org.springframework.validation.FieldError;
 import java.util.List;
 
 public class BookInvalidException extends RuntimeException {
-    private List<FieldError> fieldErrors;
+    final private List<FieldError> fieldErrors;
 
     public BookInvalidException(String message, List<FieldError> fieldErrors) {
         super(message);

@@ -45,7 +45,7 @@ public class BookController {
     public ResponseEntity<Book> createBook(@RequestBody @Valid Book book, BindingResult bindingResult) {
         rejectInvalidBook(bindingResult);
         Book savedBook = bookService.createBook(book);
-        return new ResponseEntity<Book>(savedBook, CREATED);
+        return new ResponseEntity<>(savedBook, CREATED);
     }
 
     private void rejectInvalidBook(BindingResult bindingResult) {

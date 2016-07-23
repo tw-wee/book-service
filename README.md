@@ -1,3 +1,22 @@
+### Run clean and build
+./gradlew clean build
+
+### 重新加载IntelliJ IDEA project
+./gradlew cleanIdea idea
+
+### Run unit test
+./gradlew test
+
+### Run integration test
+./gradlew intgTest 
+
+### Run checkStyle
+./gradlew check
+
+### Run Sonar
+./gradlew sonar
+然后访问http://localhost:9000/
+
 ### 启动Project
 ./gradlew bootRun
 

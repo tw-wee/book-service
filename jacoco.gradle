@@ -1,0 +1,25 @@
+apply plugin: 'jacoco'
+
+jacocoTestReport {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+    reports {
+        html.enabled true
+        xml.enabled true
+        csv.enabled false
+        html.destination "${buildDir}/reports/jacoco"
+    }
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['**/Application**',
+                                        '**/configuration/**',
+                                        '**/exception/**',
+                                        '**/filter/**',
+                                        '**/model/**',
+                                        '**/entity/**',
+                                        '**/repository/**'])
+        })
+    }
+}
+
+build.dependsOn jacocoTestReport
